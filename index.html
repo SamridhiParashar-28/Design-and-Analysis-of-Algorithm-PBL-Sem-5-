@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algorithm Visualizer – Complete DAA Lab Suite</title>
+  <meta name="description" content="A comprehensive, interactive educational visualization platform for Design and Analysis of Algorithms (DAA) coursework.">
+
+  <!-- Core Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboards.css">
+</head>
+<body>
+  <div id="app-container">
+
+    <!-- PERSISTENT LEFT SIDEBAR -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <a href="#sorting" class="brand">
+          <div class="brand-icon">⚡</div>
+          <div class="brand-info">
+            <h1>DAA Lab Suite</h1>
+            <span class="badge">Sem 5 PBL</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="nav-category">Core Curriculum Dashboards</div>
+      <ul class="nav-list" id="nav-list">
+        <li class="nav-item">
+          <a class="nav-link active" data-target="sorting" id="nav-btn-sorting">
+            <span class="nav-icon">📊</span>
+            <span>1. Sorting Algorithms</span>
+            <span class="nav-index">01</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="searching" id="nav-btn-searching">
+            <span class="nav-icon">🔍</span>
+            <span>2. Searching Algorithms</span>
+            <span class="nav-index">02</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="shortest-path" id="nav-btn-shortest-path">
+            <span class="nav-icon">🗺️</span>
+            <span>3. Shortest Path & Routes</span>
+            <span class="nav-index">03</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="greedy" id="nav-btn-greedy">
+            <span class="nav-icon">💎</span>
+            <span>4. Greedy Algorithms</span>
+            <span class="nav-index">04</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="backtracking" id="nav-btn-backtracking">
+            <span class="nav-icon">♟️</span>
+            <span>5. Backtracking & B&B</span>
+            <span class="nav-index">05</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="divide-conquer" id="nav-btn-divide-conquer">
+            <span class="nav-icon">✂️</span>
+            <span>6. Divide and Conquer</span>
+            <span class="nav-index">06</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="graph-algorithms" id="nav-btn-graph-algorithms">
+            <span class="nav-icon">🕸️</span>
+            <span>7. Graph Algorithms</span>
+            <span class="nav-index">07</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="complexity-theory" id="nav-btn-complexity-theory">
+            <span class="nav-icon">📐</span>
+            <span>8. Complexity & Theory</span>
+            <span class="nav-index">08</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <span>DAA Interactive Suite</span>
+        <span>v2.5</span>
+      </div>
+    </aside>
+
+    <!-- MAIN VIEWPORT -->
+    <main id="main-content">
+      <!-- Top Header -->
+      <header id="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation">☰</button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-module" id="header-active-module">Module 1</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-title" id="header-active-title">Sorting Algorithms</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="status-badge idle" id="global-status-badge">
+            <span class="status-indicator"></span>
+            <span id="global-status-text">Ready</span>
+          </div>
+
+          <div class="header-actions">
+            <button class="action-btn-circle active" id="btn-sound-toggle" title="Toggle Sound Synthesis (M)">🔊</button>
+            <button class="action-btn-circle" id="btn-fullscreen" title="Toggle Fullscreen">⛶</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- VIEWPORT PANELS -->
+      <div id="view-viewport">
+
+        <!-- ==========================================================================
+             1. SORTING ALGORITHMS DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section active" id="section-sorting">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Sorting Algorithms Visualizer</span>
+                <span class="badge" id="sort-algo-title">Bubble Sort</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc" id="sort-desc-text">
+              Repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.
+            </p>
+          </div>
+
+          <!-- Controls Toolbar -->
+          <div class="control-bar">
+            <div class="control-group">
+              <span class="control-label">Algorithm:</span>
+              <select class="select-input" id="sort-algo-select">
+                <option value="bubble">Bubble Sort</option>
+                <option value="selection">Selection Sort</option>
+                <option value="insertion">Insertion Sort</option>
+                <option value="counting">Counting Sort</option>
+                <option value="merge">Merge Sort</option>
+                <option value="quick">Quick Sort (Lomuto)</option>
+                <option value="heap">Heap Sort</option>
+              </select>
+
+              <span class="control-label">Array:</span>
+              <input type="text" class="text-input" id="sort-custom-input" placeholder="e.g. 45, 12, 89, 32" style="width: 170px;">
+              <button class="btn btn-secondary" id="sort-btn-apply">Apply</button>
+              <button class="btn btn-secondary" id="sort-btn-random">🎲 Random</button>
+            </div>
+
+            <div class="control-group">
+              <button class="btn btn-primary btn-play" id="sort-btn-play">▶ Play</button>
+              <button class="btn btn-secondary btn-pause" id="sort-btn-pause" disabled>⏸ Pause</button>
+              <button class="btn btn-secondary btn-step" id="sort-btn-step">⏭ Step</button>
+              <button class="btn btn-secondary btn-prev" id="sort-btn-prev">⏮ Back</button>
+              <button class="btn btn-danger btn-reset" id="sort-btn-reset">↺ Reset</button>
+
+              <div class="speed-control">
+                <span class="control-label">Speed:</span>
+                <input type="range" id="sort-speed-slider" min="30" max="1200" step="30" value="400">
+                <span class="speed-badge" id="sort-speed-val">400ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card warning">
+              <div class="metric-label">Comparisons</div>
+              <div class="metric-value" id="sort-comparisons-count">0</div>
+              <div class="metric-sub">Key comparison operations</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Swaps / Shifts</div>
+              <div class="metric-value" id="sort-swaps-count">0</div>
+              <div class="metric-sub">Memory writes & movements</div>
+            </div>
+            <div class="metric-card success">
+              <div class="metric-label">Time Complexity</div>
+              <div class="metric-value" id="sort-worst-time">O(n²)</div>
+              <div class="metric-sub">Worst case bound</div>
+            </div>
+            <div class="metric-card purple">
+              <div class="metric-label">Space Complexity</div>
+              <div class="metric-value" id="sort-space-time">O(1)</div>
+              <div class="metric-sub">Auxiliary memory overhead</div>
+            </div>
+          </div>
+
+          <!-- Step Rationale Banner -->
+          <div class="step-banner">
+            <div class="step-banner-text">
+              <span class="step-icon-indicator">⚡</span>
+              <span id="sort-step-msg">Ready to start animation. Click Play or Step Forward.</span>
+            </div>
+            <span class="badge" id="sort-progress-badge">Step 0 / 0</span>
+          </div>
+
+          <!-- Visualizer Stage -->
+          <div class="visualizer-stage">
+            <div class="bars-container" id="sorting-bars"></div>
+          </div>
+
+          <!-- Educational Breakdown Accordion -->
+          <div class="edu-panel expanded">
+            <div class="edu-header">
+              <div class="edu-title">📖 Algorithm Details & Complexity Breakdown</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="complexity-grid">
+                <div class="complexity-pill">
+                  <div class="complexity-title">Best Case Time</div>
+                  <div class="complexity-math" id="sort-best-time">O(n)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Average Case Time</div>
+                  <div class="complexity-math" id="sort-avg-time">O(n²)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Worst Case Time</div>
+                  <div class="complexity-math" id="sort-worst-time-detail">O(n²)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Space Complexity</div>
+                  <div class="complexity-math" id="sort-space-time-detail">O(1)</div>
+                </div>
+              </div>
+              <div style="margin-top: 10px;">
+                <strong style="color: #fff;">How it Works:</strong>
+                <p id="sort-how-it-works" style="margin-top: 6px;"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================================================
+             2. SEARCHING ALGORITHMS DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section" id="section-searching">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Searching Algorithms Visualizer</span>
+                <span class="badge" id="search-algo-title">Linear Search</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc" id="search-desc-text">
+              Sequentially checks each element of the list until a match is found or the whole list has been searched.
+            </p>
+          </div>
+
+          <!-- Controls Toolbar -->
+          <div class="control-bar">
+            <div class="control-group">
+              <span class="control-label">Algorithm:</span>
+              <select class="select-input" id="search-algo-select">
+                <option value="linear">Linear Search</option>
+                <option value="binary">Binary Search</option>
+              </select>
+
+              <span class="control-label">Target:</span>
+              <input type="number" class="text-input" id="search-target-input" value="42" style="width: 75px;">
+
+              <span class="control-label">Array:</span>
+              <input type="text" class="text-input" id="search-custom-input" style="width: 170px;">
+              <button class="btn btn-secondary" id="search-btn-apply">Apply</button>
+              <button class="btn btn-secondary" id="search-btn-random">🎲 Random</button>
+
+              <label style="display:flex; align-items:center; gap:6px; font-size:0.8rem; color:var(--text-muted); cursor:pointer;">
+                <input type="checkbox" id="search-sort-toggle" checked> Keep Sorted (Required for Binary)
+              </label>
+            </div>
+
+            <div class="control-group">
+              <button class="btn btn-primary btn-play" id="search-btn-play">▶ Play</button>
+              <button class="btn btn-secondary btn-pause" id="search-btn-pause" disabled>⏸ Pause</button>
+              <button class="btn btn-secondary btn-step" id="search-btn-step">⏭ Step</button>
+              <button class="btn btn-secondary btn-prev" id="search-btn-prev">⏮ Back</button>
+              <button class="btn btn-danger btn-reset" id="search-btn-reset">↺ Reset</button>
+
+              <div class="speed-control">
+                <span class="control-label">Speed:</span>
+                <input type="range" id="search-speed-slider" min="50" max="1200" step="50" value="400">
+                <span class="speed-badge" id="search-speed-val">400ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card warning">
+              <div class="metric-label">Comparisons Made</div>
+              <div class="metric-value" id="search-comparisons-count">0</div>
+              <div class="metric-sub">Elements checked vs Target</div>
+            </div>
+            <div class="metric-card success">
+              <div class="metric-label">Worst-Case Time</div>
+              <div class="metric-value" id="search-worst-time">O(n)</div>
+              <div class="metric-sub">Time complexity ceiling</div>
+            </div>
+            <div class="metric-card purple">
+              <div class="metric-label">Space Complexity</div>
+              <div class="metric-value" id="search-space-time">O(1)</div>
+              <div class="metric-sub">In-place search</div>
+            </div>
+          </div>
+
+          <!-- Step Banner -->
+          <div class="step-banner">
+            <div class="step-banner-text">
+              <span class="step-icon-indicator">⚡</span>
+              <span id="search-step-msg">Search ready.</span>
+            </div>
+            <span class="badge" id="search-progress-badge">Step 0 / 0</span>
+          </div>
+
+          <!-- Visualizer Stage -->
+          <div class="visualizer-stage">
+            <div class="search-array-wrapper" id="search-array-container"></div>
+          </div>
+
+          <!-- Complexity Benchmark Table -->
+          <div class="data-table-wrapper">
+            <h3 style="font-size:0.95rem; margin-bottom: 0.5rem; color:#fff;">Algorithm Benchmark & Prerequisite Comparison</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Best Case</th>
+                  <th>Average Case</th>
+                  <th>Worst Case</th>
+                  <th>Space</th>
+                  <th>Sorted Prerequisite</th>
+                  <th>Search Space Reduction</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Linear Search</strong></td>
+                  <td>O(1)</td>
+                  <td>O(n)</td>
+                  <td>O(n)</td>
+                  <td>O(1)</td>
+                  <td><span style="color:#10b981;">No (Any array)</span></td>
+                  <td>1 element per step</td>
+                </tr>
+                <tr>
+                  <td><strong>Binary Search</strong></td>
+                  <td>O(1)</td>
+                  <td>O(log n)</td>
+                  <td>O(log n)</td>
+                  <td>O(1)</td>
+                  <td><span style="color:#f43f5e; font-weight:bold;">Yes (Must be monotonic)</span></td>
+                  <td>Halves remaining space (50%) per step</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Educational Details -->
+          <div class="edu-panel expanded">
+            <div class="edu-header">
+              <div class="edu-title">📖 Why Does Binary Search Require a Sorted Array?</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="complexity-grid">
+                <div class="complexity-pill">
+                  <div class="complexity-title">Best Case Time</div>
+                  <div class="complexity-math" id="search-best-time">O(1)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Average Case Time</div>
+                  <div class="complexity-math" id="search-avg-time">O(n)</div>
+                </div>
+              </div>
+              <p id="search-how-it-works" style="margin-top: 10px;"></p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================================================
+             3. SHORTEST PATH / ROUTE OPTIMIZATION DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section" id="section-shortest-path">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Shortest Path & Route Optimization</span>
+                <span class="badge" id="sp-algo-title">Dijkstra's Algorithm</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc" id="sp-desc-text">
+              Greedy algorithm finding shortest paths from source to all vertices using non-negative edge weights.
+            </p>
+          </div>
+
+          <!-- Controls -->
+          <div class="control-bar">
+            <div class="control-group">
+              <span class="control-label">Algorithm:</span>
+              <select class="select-input" id="sp-algo-select">
+                <option value="dijkstra">Dijkstra's Algorithm</option>
+                <option value="bellman">Bellman-Ford Algorithm</option>
+                <option value="astar">A* Search (Euclidean Heuristic)</option>
+              </select>
+
+              <span class="control-label">Source:</span>
+              <select class="select-input" id="sp-start-select"></select>
+
+              <span class="control-label">Target:</span>
+              <select class="select-input" id="sp-target-select"></select>
+            </div>
+
+            <div class="control-group">
+              <button class="btn btn-primary btn-play" id="sp-btn-play">▶ Play</button>
+              <button class="btn btn-secondary btn-pause" id="sp-btn-pause" disabled>⏸ Pause</button>
+              <button class="btn btn-secondary btn-step" id="sp-btn-step">⏭ Step</button>
+              <button class="btn btn-secondary btn-prev" id="sp-btn-prev">⏮ Back</button>
+              <button class="btn btn-danger btn-reset" id="sp-btn-reset">↺ Reset</button>
+
+              <div class="speed-control">
+                <span class="control-label">Speed:</span>
+                <input type="range" id="sp-speed-slider" min="100" max="1500" step="50" value="500">
+                <span class="speed-badge" id="sp-speed-val">500ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card warning">
+              <div class="metric-label">Visited Nodes</div>
+              <div class="metric-value" id="sp-visited-count">0</div>
+              <div class="metric-sub">Nodes settled</div>
+            </div>
+            <div class="metric-card success">
+              <div class="metric-label">Target Distance</div>
+              <div class="metric-value" id="sp-target-dist">∞</div>
+              <div class="metric-sub">Optimal path weight</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Time Complexity</div>
+              <div class="metric-value" id="sp-worst-time">O((V + E) log V)</div>
+              <div class="metric-sub">Min-heap implementation</div>
+            </div>
+            <div class="metric-card purple">
+              <div class="metric-label">Space Complexity</div>
+              <div class="metric-value" id="sp-space-time">O(V)</div>
+              <div class="metric-sub">Distance & parent tables</div>
+            </div>
+          </div>
+
+          <!-- Step Banner -->
+          <div class="step-banner">
+            <div class="step-banner-text">
+              <span class="step-icon-indicator">⚡</span>
+              <span id="sp-step-msg">Select source/target and press Play.</span>
+            </div>
+            <span class="badge" id="sp-progress-badge">Step 0 / 0</span>
+          </div>
+
+          <!-- Visualizer Stage -->
+          <div class="visualizer-stage" style="padding: 0;">
+            <div class="graph-canvas-container">
+              <canvas class="graph-canvas" id="sp-canvas"></canvas>
+              <div class="graph-overlay-info">
+                💡 Click Play to observe real-time node relaxation & path extraction
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-Time Distance Table -->
+          <div style="margin-top: 1rem;">
+            <div class="control-label" style="margin-bottom: 0.35rem;">Real-Time Distance Array (Tentative Costs):</div>
+            <div class="dist-table-strip" id="sp-dist-table"></div>
+          </div>
+
+          <!-- Educational Details -->
+          <div class="edu-panel expanded">
+            <div class="edu-header">
+              <div class="edu-title">📖 Algorithm Mechanics & Multi-Algorithm Comparison</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="complexity-grid">
+                <div class="complexity-pill">
+                  <div class="complexity-title">Best Case Time</div>
+                  <div class="complexity-math" id="sp-best-time">O((V + E) log V)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Average Case Time</div>
+                  <div class="complexity-math" id="sp-avg-time">O((V + E) log V)</div>
+                </div>
+              </div>
+              <p id="sp-how-it-works"></p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================================================
+             4. GREEDY ALGORITHMS DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section" id="section-greedy">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Greedy Algorithms Visualizer</span>
+                <span class="badge" id="greedy-algo-title">Huffman Coding</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc" id="greedy-desc-text">
+              Lossless data compression algorithm assigning variable-length prefix codes based on character frequencies.
+            </p>
+          </div>
+
+          <!-- Controls -->
+          <div class="control-bar">
+            <div class="control-group">
+              <span class="control-label">Algorithm:</span>
+              <select class="select-input" id="greedy-algo-select">
+                <option value="huffman">Huffman Coding (Tree Generation)</option>
+                <option value="fractional">Fractional Knapsack (Greedy Optimal)</option>
+                <option value="knapsack01">0/1 Knapsack (Greedy Heuristic Failure)</option>
+              </select>
+
+              <div id="greedy-custom-input-group" style="display:flex; align-items:center; gap:8px;">
+                <span class="control-label">Frequencies:</span>
+                <input type="text" class="text-input" id="greedy-freq-input" value="A:45, B:13, C:12, D:16, E:9, F:5" style="width: 220px;">
+                <button class="btn btn-secondary" id="greedy-btn-apply">Build</button>
+              </div>
+
+              <div id="knapsack-cap-group" style="display:none; align-items:center; gap:8px;">
+                <span class="control-label">Capacity (kg):</span>
+                <input type="number" class="text-input" id="knapsack-cap-input" value="8" style="width: 70px;">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <button class="btn btn-primary btn-play" id="greedy-btn-play">▶ Play</button>
+              <button class="btn btn-secondary btn-pause" id="greedy-btn-pause" disabled>⏸ Pause</button>
+              <button class="btn btn-secondary btn-step" id="greedy-btn-step">⏭ Step</button>
+              <button class="btn btn-secondary btn-prev" id="greedy-btn-prev">⏮ Back</button>
+              <button class="btn btn-danger btn-reset" id="greedy-btn-reset">↺ Reset</button>
+
+              <div class="speed-control">
+                <span class="control-label">Speed:</span>
+                <input type="range" id="greedy-speed-slider" min="100" max="1500" step="50" value="500">
+                <span class="speed-badge" id="greedy-speed-val">500ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card success">
+              <div class="metric-label">Solution Value / Metric</div>
+              <div class="metric-value" id="greedy-total-val">$0</div>
+              <div class="metric-sub">Value accumulated</div>
+            </div>
+            <div class="metric-card warning">
+              <div class="metric-label">Average Code Length / Efficiency</div>
+              <div class="metric-value" id="greedy-stat-extra">-</div>
+              <div class="metric-sub">Bits per character</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Time Complexity</div>
+              <div class="metric-value" id="greedy-worst-time">O(n log n)</div>
+              <div class="metric-sub">Priority queue operations</div>
+            </div>
+            <div class="metric-card purple">
+              <div class="metric-label">Space Complexity</div>
+              <div class="metric-value" id="greedy-space-time">O(n)</div>
+              <div class="metric-sub">Tree nodes and tables</div>
+            </div>
+          </div>
+
+          <!-- Step Banner -->
+          <div class="step-banner">
+            <div class="step-banner-text">
+              <span class="step-icon-indicator">⚡</span>
+              <span id="greedy-step-msg">Select Greedy algorithm to begin.</span>
+            </div>
+            <span class="badge" id="greedy-progress-badge">Step 0 / 0</span>
+          </div>
+
+          <!-- Stage: Huffman Section -->
+          <div id="greedy-huffman-section">
+            <div class="visualizer-stage">
+              <div id="greedy-stage-huffman"></div>
+            </div>
+            <div id="huffman-codes-table" style="margin-top: 1rem;"></div>
+          </div>
+
+          <!-- Stage: Knapsack Section -->
+          <div id="greedy-knapsack-section" style="display:none;">
+            <div class="knapsack-capacity-bar">
+              <div class="knapsack-progress" id="knapsack-progress-bar"></div>
+              <div class="knapsack-cap-label" id="knapsack-cap-text">0 / 8 kg (0%)</div>
+            </div>
+            <div class="knapsack-items-grid" id="knapsack-items-grid"></div>
+          </div>
+
+          <!-- Educational Details -->
+          <div class="edu-panel expanded">
+            <div class="edu-header">
+              <div class="edu-title">📖 Greedy Choice Property & Optimal Substructure</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="complexity-grid">
+                <div class="complexity-pill">
+                  <div class="complexity-title">Best Case Time</div>
+                  <div class="complexity-math" id="greedy-best-time">O(n log n)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Average Case Time</div>
+                  <div class="complexity-math" id="greedy-avg-time">O(n log n)</div>
+                </div>
+              </div>
+              <p id="greedy-how-it-works"></p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================================================
+             5. BACKTRACKING & BRANCH AND BOUND DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section" id="section-backtracking">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Backtracking & Branch and Bound</span>
+                <span class="badge" id="bt-algo-title">N-Queens Problem</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc" id="bt-desc-text">
+              Places N chess queens on an N×N board such that no two queens threaten each other.
+            </p>
+          </div>
+
+          <!-- Controls -->
+          <div class="control-bar">
+            <div class="control-group">
+              <span class="control-label">Algorithm:</span>
+              <select class="select-input" id="bt-algo-select">
+                <option value="nqueens">N-Queens Problem (Backtracking)</option>
+                <option value="tsp">TSP (Branch & Bound Pruning)</option>
+                <option value="subsetSum">Sum of Subsets Problem</option>
+              </select>
+
+              <select class="select-input" id="nqueens-n-select">
+                <option value="4">4 × 4 Board</option>
+                <option value="5">5 × 5 Board</option>
+                <option value="6">6 × 6 Board</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <button class="btn btn-primary btn-play" id="bt-btn-play">▶ Play</button>
+              <button class="btn btn-secondary btn-pause" id="bt-btn-pause" disabled>⏸ Pause</button>
+              <button class="btn btn-secondary btn-step" id="bt-btn-step">⏭ Step</button>
+              <button class="btn btn-secondary btn-prev" id="bt-btn-prev">⏮ Back</button>
+              <button class="btn btn-danger btn-reset" id="bt-btn-reset">↺ Reset</button>
+
+              <div class="speed-control">
+                <span class="control-label">Speed:</span>
+                <input type="range" id="bt-speed-slider" min="50" max="1200" step="50" value="350">
+                <span class="speed-badge" id="bt-speed-val">350ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card success">
+              <div class="metric-label">Valid Solutions Found</div>
+              <div class="metric-value" id="bt-solution-count">0</div>
+              <div class="metric-sub">Complete feasible configurations</div>
+            </div>
+            <div class="metric-card warning">
+              <div class="metric-label">Time Complexity</div>
+              <div class="metric-value" id="bt-worst-time">O(n!)</div>
+              <div class="metric-sub">Factorial state space</div>
+            </div>
+            <div class="metric-card purple">
+              <div class="metric-label">Space Complexity</div>
+              <div class="metric-value" id="bt-space-time">O(n)</div>
+              <div class="metric-sub">Recursion stack depth</div>
+            </div>
+          </div>
+
+          <!-- Step Banner -->
+          <div class="step-banner">
+            <div class="step-banner-text">
+              <span class="step-icon-indicator">⚡</span>
+              <span id="bt-step-msg">Backtracking engine ready.</span>
+            </div>
+            <span class="badge" id="bt-progress-badge">Step 0 / 0</span>
+          </div>
+
+          <!-- Visualizer Stage -->
+          <div class="visualizer-stage">
+            <div class="chessboard-container">
+              <div class="chessboard" id="chessboard-view"></div>
+            </div>
+            <div id="bt-custom-state" style="display:none;"></div>
+          </div>
+
+          <!-- Educational Details -->
+          <div class="edu-panel expanded">
+            <div class="edu-header">
+              <div class="edu-title">📖 State Space Trees & Branch Pruning Mechanics</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="complexity-grid">
+                <div class="complexity-pill">
+                  <div class="complexity-title">Best Case Time</div>
+                  <div class="complexity-math" id="bt-best-time">O(n!)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Worst Case Time</div>
+                  <div class="complexity-math" id="bt-worst-time-detail">O(n!)</div>
+                </div>
+              </div>
+              <p id="bt-how-it-works"></p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================================================
+             6. DIVIDE AND CONQUER DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section" id="section-divide-conquer">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Divide and Conquer Visualizer</span>
+                <span class="badge" id="dc-algo-title">Closest Pair of Points</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc" id="dc-desc-text">
+              Finds pair of points with smallest Euclidean distance in 2D using vertical split line and narrow 2δ strip.
+            </p>
+          </div>
+
+          <!-- Controls -->
+          <div class="control-bar">
+            <div class="control-group">
+              <span class="control-label">Algorithm:</span>
+              <select class="select-input" id="dc-algo-select">
+                <option value="closestPair">Closest Pair of Points (2D Plane)</option>
+                <option value="strassen">Strassen's Matrix Multiplication</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <button class="btn btn-primary btn-play" id="dc-btn-play">▶ Play</button>
+              <button class="btn btn-secondary btn-pause" id="dc-btn-pause" disabled>⏸ Pause</button>
+              <button class="btn btn-secondary btn-step" id="dc-btn-step">⏭ Step</button>
+              <button class="btn btn-secondary btn-prev" id="dc-btn-prev">⏮ Back</button>
+              <button class="btn btn-danger btn-reset" id="dc-btn-reset">↺ Reset</button>
+
+              <div class="speed-control">
+                <span class="control-label">Speed:</span>
+                <input type="range" id="dc-speed-slider" min="100" max="1500" step="50" value="600">
+                <span class="speed-badge" id="dc-speed-val">600ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card success">
+              <div class="metric-label">Minimum Distance (δ)</div>
+              <div class="metric-value" id="dc-delta-val">None</div>
+              <div class="metric-sub">Closest Euclidean pair</div>
+            </div>
+            <div class="metric-card warning">
+              <div class="metric-label">Time Complexity</div>
+              <div class="metric-value" id="dc-worst-time">O(n log n)</div>
+              <div class="metric-sub">D&C recurrence</div>
+            </div>
+            <div class="metric-card purple">
+              <div class="metric-label">Space Complexity</div>
+              <div class="metric-value" id="dc-space-time">O(n)</div>
+              <div class="metric-sub">Recursion stack and strip</div>
+            </div>
+          </div>
+
+          <!-- Step Banner -->
+          <div class="step-banner">
+            <div class="step-banner-text">
+              <span class="step-icon-indicator">⚡</span>
+              <span id="dc-step-msg">Divide and conquer engine ready.</span>
+            </div>
+            <span class="badge" id="dc-progress-badge">Step 0 / 0</span>
+          </div>
+
+          <!-- Visualizer Stage -->
+          <div class="visualizer-stage" style="padding: 0;">
+            <canvas class="split-plane-canvas" id="dc-canvas"></canvas>
+            <div id="dc-matrix-view" style="display:none; padding:1.5rem;"></div>
+          </div>
+
+          <!-- Recursive Call Stack Viewer -->
+          <div style="margin-top: 1rem;">
+            <div class="control-label" style="margin-bottom: 0.35rem;">Active Recursive Call Stack:</div>
+            <div class="call-stack-list" id="dc-call-stack"></div>
+          </div>
+
+          <!-- Educational Details -->
+          <div class="edu-panel expanded">
+            <div class="edu-header">
+              <div class="edu-title">📖 Divide, Conquer, and Combine Breakdown</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="complexity-grid">
+                <div class="complexity-pill">
+                  <div class="complexity-title">Best Case Time</div>
+                  <div class="complexity-math" id="dc-best-time">O(n log n)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Worst Case Time</div>
+                  <div class="complexity-math" id="dc-worst-time-detail">O(n log n)</div>
+                </div>
+              </div>
+              <p id="dc-how-it-works"></p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================================================
+             7. GRAPH ALGORITHMS DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section" id="section-graph-algorithms">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Graph Algorithms & Spanning Trees</span>
+                <span class="badge" id="graph-algo-title">Breadth-First Search (BFS)</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc" id="graph-desc-text">
+              Level-order graph traversal using a FIFO Queue. Finds shortest path in unweighted graphs.
+            </p>
+          </div>
+
+          <!-- Controls -->
+          <div class="control-bar">
+            <div class="control-group">
+              <span class="control-label">Algorithm:</span>
+              <select class="select-input" id="graph-algo-select">
+                <option value="bfs">Breadth-First Search (BFS)</option>
+                <option value="dfs">Depth-First Search (DFS)</option>
+                <option value="kruskal">Kruskal's MST (Disjoint-Set)</option>
+                <option value="bipartite">Bipartite Verification (2-Coloring)</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <button class="btn btn-primary btn-play" id="graph-btn-play">▶ Play</button>
+              <button class="btn btn-secondary btn-pause" id="graph-btn-pause" disabled>⏸ Pause</button>
+              <button class="btn btn-secondary btn-step" id="graph-btn-step">⏭ Step</button>
+              <button class="btn btn-secondary btn-prev" id="graph-btn-prev">⏮ Back</button>
+              <button class="btn btn-danger btn-reset" id="graph-btn-reset">↺ Reset</button>
+
+              <div class="speed-control">
+                <span class="control-label">Speed:</span>
+                <input type="range" id="graph-speed-slider" min="100" max="1500" step="50" value="500">
+                <span class="speed-badge" id="graph-speed-val">500ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="metric-card success">
+              <div class="metric-label">MST Weight / Total</div>
+              <div class="metric-value" id="graph-mst-weight">0</div>
+              <div class="metric-sub">Sum of tree edge weights</div>
+            </div>
+            <div class="metric-card warning">
+              <div class="metric-label">Time Complexity</div>
+              <div class="metric-value" id="graph-worst-time">O(V + E)</div>
+              <div class="metric-sub">Traversal bound</div>
+            </div>
+            <div class="metric-card purple">
+              <div class="metric-label">Space Complexity</div>
+              <div class="metric-value" id="graph-space-time">O(V)</div>
+              <div class="metric-sub">Queue / Parent set memory</div>
+            </div>
+          </div>
+
+          <!-- Step Banner -->
+          <div class="step-banner">
+            <div class="step-banner-text">
+              <span class="step-icon-indicator">⚡</span>
+              <span id="graph-step-msg">Select Graph algorithm to start.</span>
+            </div>
+            <span class="badge" id="graph-progress-badge">Step 0 / 0</span>
+          </div>
+
+          <!-- Visualizer Stage -->
+          <div class="visualizer-stage" style="padding: 0;">
+            <canvas class="graph-canvas" id="graph-canvas"></canvas>
+          </div>
+
+          <!-- Traversal Queue / Stack Tracker -->
+          <div class="traversal-state-tracker">
+            <div class="tracker-box">
+              <div class="tracker-title">Active Data Structure (FIFO Queue / Stack):</div>
+              <div class="queue-items-flow" id="graph-queue-flow"></div>
+            </div>
+          </div>
+
+          <!-- Educational Details -->
+          <div class="edu-panel expanded">
+            <div class="edu-header">
+              <div class="edu-title">📖 Graph Traversal & Spanning Tree Properties</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="complexity-grid">
+                <div class="complexity-pill">
+                  <div class="complexity-title">Best Case Time</div>
+                  <div class="complexity-math" id="graph-best-time">O(V + E)</div>
+                </div>
+                <div class="complexity-pill">
+                  <div class="complexity-title">Average Case Time</div>
+                  <div class="complexity-math" id="graph-avg-time">O(V + E)</div>
+                </div>
+              </div>
+              <p id="graph-how-it-works"></p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ==========================================================================
+             8. COMPLEXITY & THEORY DASHBOARD
+             ========================================================================== -->
+        <section class="dashboard-section" id="section-complexity-theory">
+          <div class="dashboard-header">
+            <div class="dashboard-title-row">
+              <h2 class="dashboard-title">
+                <span>Complexity & Theory Laboratory</span>
+                <span class="badge">Theoretical Foundations</span>
+              </h2>
+            </div>
+            <p class="dashboard-desc">
+              Visual analysis of asymptotic growth curves (Big O, Ω, Θ), interactive Master Theorem recurrence calculator, and P vs NP complexity hierarchy.
+            </p>
+          </div>
+
+          <!-- Interactive Growth Curves Canvas -->
+          <div class="visualizer-stage" style="padding: 1.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem; flex-wrap:wrap; gap:0.5rem;">
+              <span style="font-weight:700; color:#fff; font-size:0.95rem;">Interactive Asymptotic Growth Curves:</span>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:0.75rem;">
+                <label style="color:#10b981; cursor:pointer;"><input type="checkbox" class="curve-toggle" data-curve="c1" checked> O(1)</label>
+                <label style="color:#06b6d4; cursor:pointer;"><input type="checkbox" class="curve-toggle" data-curve="clog" checked> O(log n)</label>
+                <label style="color:#38bdf8; cursor:pointer;"><input type="checkbox" class="curve-toggle" data-curve="cn" checked> O(n)</label>
+                <label style="color:#fbbf24; cursor:pointer;"><input type="checkbox" class="curve-toggle" data-curve="cnlog" checked> O(n log n)</label>
+                <label style="color:#f97316; cursor:pointer;"><input type="checkbox" class="curve-toggle" data-curve="cn2" checked> O(n²)</label>
+                <label style="color:#ef4444; cursor:pointer;"><input type="checkbox" class="curve-toggle" data-curve="c2n" checked> O(2ⁿ)</label>
+              </div>
+            </div>
+            <canvas class="theory-curves-canvas" id="theory-canvas"></canvas>
+          </div>
+
+          <!-- Interactive Master Theorem Calculator -->
+          <div class="master-solver-box">
+            <h3 style="font-size:1.1rem; color:#fff; margin-bottom:0.75rem;">Master Theorem Recurrence Solver</h3>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:1rem;">
+              Solves recurrences of the form: <code>T(n) = a · T(n/b) + Θ(n^k · log^p n)</code>
+            </p>
+
+            <div class="recurrence-input-row">
+              <span>T(n) = </span>
+              <input type="number" class="text-input" id="mt-a-input" value="2" min="1">
+              <span>· T(n / </span>
+              <input type="number" class="text-input" id="mt-b-input" value="2" min="2">
+              <span>) + Θ(n ^ </span>
+              <input type="number" class="text-input" id="mt-k-input" value="1" min="0" step="0.5">
+              <span>· log ^ </span>
+              <input type="number" class="text-input" id="mt-p-input" value="0" min="0">
+              <span> n)</span>
+              <button class="btn btn-primary" id="mt-calc-btn" style="margin-left: 10px;">⚡ Solve Recurrence</button>
+            </div>
+
+            <div class="master-solution-card" id="mt-result-card">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- P vs NP vs NP-Complete Guide -->
+          <div class="edu-panel expanded" style="margin-top:1.5rem;">
+            <div class="edu-header">
+              <div class="edu-title">🌐 P vs NP vs NP-Complete vs NP-Hard Hierarchy</div>
+              <span>▾</span>
+            </div>
+            <div class="edu-content">
+              <div class="p-np-euler-wrap">
+                <div class="euler-circle euler-np">
+                  <div class="euler-npc">NP-Complete (Hardest in NP)<br><small>3-SAT, TSP, Clique</small></div>
+                  <div class="euler-circle euler-p">
+                    <strong style="color:var(--primary); font-size:0.9rem;">P (Polynomial)</strong>
+                    <small style="color:var(--text-muted); font-size:0.7rem; margin-top:4px;">Solvable in Poly-time<br>Sorting, Shortest Path</small>
+                  </div>
+                  <span style="position:absolute; bottom:6px; color:#c084fc; font-weight:700; font-size:0.8rem;">NP (Nondeterministic Polynomial)</span>
+                </div>
+              </div>
+
+              <div class="data-table-wrapper" style="margin-top:1.5rem;">
+                <h4 style="color:#fff; font-size:0.9rem; margin-bottom:0.5rem;">Classic Polynomial-Time Karp Reductions</h4>
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Source Problem</th>
+                      <th>Reduction Target</th>
+                      <th>Mapping Scheme</th>
+                      <th>Significance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Circuit-SAT</strong></td>
+                      <td><strong>3-SAT</strong></td>
+                      <td>Gates mapped to 3-literal conjunctive normal form clauses</td>
+                      <td>Cook-Levin Theorem foundational proof of NP-Completeness</td>
+                    </tr>
+                    <tr>
+                      <td><strong>3-SAT</strong></td>
+                      <td><strong>Clique</strong></td>
+                      <td>Clauses become vertex groups; edges placed between compatible literals</td>
+                      <td>Proves Graph Clique problem is NP-Complete</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Independent Set</strong></td>
+                      <td><strong>Vertex Cover</strong></td>
+                      <td>Complement graph vertices: S is independent set iff V \ S is vertex cover</td>
+                      <td>Dual optimization bridge</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/sorting.js"></script>
+  <script src="js/searching.js"></script>
+  <script src="js/shortest_path.js"></script>
+  <script src="js/greedy.js"></script>
+  <script src="js/backtracking.js"></script>
+  <script src="js/divide_conquer.js"></script>
+  <script src="js/graph_algorithms.js"></script>
+  <script src="js/complexity_theory.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
